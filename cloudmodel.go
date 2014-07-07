@@ -7,12 +7,18 @@ const (
 )
 
 type Root struct {
-	Response string      `json:"response"`
-	Result   interface{} `json:"result"`
-	Message  string      `json:"msg"`
+	Response string `json:"response"`
+	Result   string `json:"result"`
+	Message  string `json:"msg"`
 }
 
 /* Strutures for Stats Request */
+
+type RootStats struct {
+	Response Stats  `json:"response"`
+	Result   string `json:"result"`
+	Message  string `json:"msg"`
+}
 
 type Stats struct {
 	TimeZero float64      `json:"timeZero"`
@@ -60,6 +66,16 @@ type ServedStats struct {
 
 /* Strutures for Zone Multi Load Request */
 
+type RootZones struct {
+	Response Zones  `json:"response"`
+	Result   string `json:"result"`
+	Message  string `json:"msg"`
+}
+
+type Zones struct {
+	Zones ZonesLoad `json:"zones"`
+}
+
 type ZonesLoad struct {
 	HasMore bool       `json:"has_more"`
 	Count   int        `json:"count"`
@@ -67,28 +83,28 @@ type ZonesLoad struct {
 }
 
 type ZoneLoad struct {
-	ZoneId          string           `json:"zone_id"`
-	UserId          string           `json:"user_id"`
-	ZoneName        string           `json:"zone_name"`
-	DisplayName     string           `json:"display_name"`
-	ZoneStatus      string           `json:"zone_status"`
-	ZoneMode        string           `json:"zone_mode"`
-	HostId          string           `json:"host_id"`
-	ZoneType        string           `json:"zone_type"`
-	HostPubName     string           `json:"host_pubname"`
-	HostWebsite     string           `json:"host_website"`
-	Vtxt            string           `json:"vtxt"`
-	Fqdns           []string         `json:"fqdns"`
-	Step            string           `json:"step"`
-	ZoneStatusClass string           `json:"zone_status_class"`
-	ZoneStatusDesc  string           `json:"zone_status_desc"`
-	NsVanityMap     []interface{}    `json:"ns_vanity_map"`
-	OrigRegistrar   string           `json:"orig_registrar"`
-	OrigDnshost     string           `json:"orig_dnshost"`
-	OrigNsnames     string           `json:"orig_dnshost"`
-	Props           ZoneLoadProperty `json:"props"`
-	ConfirmCode     []Codes          `json:"confirm_code"`
-	Allow           []string         `json:"allow"`
+	ZoneId          string            `json:"zone_id"`
+	UserId          string            `json:"user_id"`
+	ZoneName        string            `json:"zone_name"`
+	DisplayName     string            `json:"display_name"`
+	ZoneStatus      string            `json:"zone_status"`
+	ZoneMode        string            `json:"zone_mode"`
+	HostId          string            `json:"host_id"`
+	ZoneType        string            `json:"zone_type"`
+	HostPubName     string            `json:"host_pubname"`
+	HostWebsite     string            `json:"host_website"`
+	Vtxt            string            `json:"vtxt"`
+	Fqdns           []string          `json:"fqdns"`
+	Step            string            `json:"step"`
+	ZoneStatusClass string            `json:"zone_status_class"`
+	ZoneStatusDesc  string            `json:"zone_status_desc"`
+	NsVanityMap     []interface{}     `json:"ns_vanity_map"`
+	OrigRegistrar   string            `json:"orig_registrar"`
+	OrigDnshost     string            `json:"orig_dnshost"`
+	OrigNsnames     string            `json:"orig_dnshost"`
+	Props           ZoneLoadProperty  `json:"props"`
+	ConfirmCode     map[string]string `json:"confirm_code"`
+	Allow           []string          `json:"allow"`
 }
 
 type ZoneLoadProperty struct {
@@ -115,6 +131,12 @@ type Codes struct {
 /* End Strutures for Zone Multi Load Request */
 
 /* Strutures for Dns Records Request */
+
+type RootDnsRecords struct {
+	Response DnsRecords `json:"response"`
+	Result   string     `json:"result"`
+	Message  string     `json:"msg"`
+}
 
 type DnsRecords struct {
 	HasMore bool     `json:"has_more"`
@@ -156,6 +178,12 @@ type DnsProperty struct {
 
 /* Strutures for Zones Check Request */
 
+type RootZonesCheck struct {
+	Response ZonesCheck `json:"response"`
+	Result   string     `json:"result"`
+	Message  string     `json:"msg"`
+}
+
 type ZonesCheck struct {
 	Zones map[string]int `json:"zones"`
 }
@@ -163,6 +191,12 @@ type ZonesCheck struct {
 /* END Strutures for Zones Check Request */
 
 /* Strutures for Zones Ips Request */
+
+type RootZoneIps struct {
+	Response ZoneIps `json:"response"`
+	Result   string  `json:"result"`
+	Message  string  `json:"msg"`
+}
 
 type ZoneIps struct {
 	Ips Ip `json:"ips"`
@@ -180,6 +214,12 @@ type Ip struct {
 /* END Strutures for Zones Ips Request */
 
 /* Strutures for Zone Settings Request */
+
+type RootZoneSettings struct {
+	Response ZoneSettings `json:"response"`
+	Result   string       `json:"result"`
+	Message  string       `json:"msg"`
+}
 
 type ZoneSettings struct {
 	Result []Settings `json:"result"`
@@ -212,12 +252,34 @@ type Settings struct {
 
 /* END Strutures for Zone Settings Request */
 
+type RootSecLevel struct {
+	Response SecLevel `json:"response"`
+	Result   string   `json:"result"`
+	Message  string   `json:"msg"`
+}
+
 type SecLevel struct {
 	Zone ZoneLoad `json:"zone"`
 }
 
+/**/
+
+type RootCacheLevel struct {
+	Response CacheLevel `json:"response"`
+	Result   string     `json:"result"`
+	Message  string     `json:"msg"`
+}
+
 type CacheLevel struct {
 	Zone ZoneLoad `json:"zone"`
+}
+
+/**/
+
+type RootDevMode struct {
+	Response DevMode `json:"response"`
+	Result   string  `json:"result"`
+	Message  string  `json:"msg"`
 }
 
 type DevMode struct {
@@ -225,9 +287,25 @@ type DevMode struct {
 	Zone      ZoneLoad `json:"zone"`
 }
 
+/**/
+
+type RootPurgeCache struct {
+	Response PurgeCache `json:"response"`
+	Result   string     `json:"result"`
+	Message  string     `json:"msg"`
+}
+
 type PurgeCache struct {
 	FpurgeTs float64  `json:"fpurge_ts"`
 	Zone     ZoneLoad `json:"zone"`
+}
+
+/**/
+
+type RootPurgeFile struct {
+	Response PurgeFile `json:"response"`
+	Result   string    `json:"result"`
+	Message  string    `json:"msg"`
 }
 
 type PurgeFile struct {
@@ -235,15 +313,51 @@ type PurgeFile struct {
 	Url        string `json:"url"`
 }
 
+/**/
+
+type RootModIp struct {
+	Response ModIp  `json:"response"`
+	Result   string `json:"result"`
+	Message  string `json:"msg"`
+}
+
 type ModIp struct {
 	Ip     string `json:"ip"`
 	Action string `json:"action"`
+}
+
+/**/
+
+type RootNewRecord struct {
+	Response NewRecord `json:"response"`
+	Result   string    `json:"result"`
+	Message  string    `json:"msg"`
 }
 
 type NewRecord struct {
 	Rec Record `json:"obj"`
 }
 
+/**/
+
+type RootEditRecord struct {
+	Response EditRecord `json:"response"`
+	Result   string     `json:"result"`
+	Message  string     `json:"msg"`
+}
+
 type EditRecord struct {
 	Rec Record `json:"obj"`
+}
+
+/**/
+
+type RootLookupIp struct {
+	Response LookupIp `json:"response"`
+	Result   string   `json:"result"`
+	Message  string   `json:"msg"`
+}
+
+type LookupIp struct {
+	Ip string `json:"[IP]"`
 }
