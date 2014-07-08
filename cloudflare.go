@@ -2,6 +2,7 @@ package cloudflare
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -61,6 +62,10 @@ func (this *Cloudflare) GetDomainStats(domain, interval string) (RootStats, erro
 	if err != nil {
 		return RootStats{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootStats{}, err
+	}
 	return data, nil
 }
 
@@ -73,6 +78,10 @@ func (this *Cloudflare) GetDomainsList() (RootZones, error) {
 	data := RootZones{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootZones{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootZones{}, err
 	}
 	return data, nil
@@ -88,6 +97,10 @@ func (this *Cloudflare) GetDnsRecords(domain string) (RootDnsRecords, error) {
 	data := RootDnsRecords{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootDnsRecords{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootDnsRecords{}, err
 	}
 	return data, nil
@@ -106,6 +119,10 @@ func (this *Cloudflare) NewDnsRecord(domain string, values map[string]string) (R
 	data := RootNewRecord{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootNewRecord{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootNewRecord{}, err
 	}
 	return data, nil
@@ -127,6 +144,10 @@ func (this *Cloudflare) EditDnsRecord(domain, id string, values map[string]strin
 	if err != nil {
 		return RootEditRecord{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootEditRecord{}, err
+	}
 	return data, nil
 }
 
@@ -140,6 +161,10 @@ func (this *Cloudflare) DeleteDnsRecord(domain, id string) (Root, error) {
 	data := Root{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return Root{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return Root{}, err
 	}
 	return data, nil
@@ -172,6 +197,10 @@ func (this *Cloudflare) SetSecurityLevel(domain, level string) (RootZones, error
 	if err != nil {
 		return RootZones{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootZones{}, err
+	}
 	return data, nil
 }
 
@@ -186,6 +215,10 @@ func (this *Cloudflare) SetCacheLevel(domain, level string) (RootZones, error) {
 	data := RootZones{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootZones{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootZones{}, err
 	}
 	return data, nil
@@ -209,6 +242,10 @@ func (this *Cloudflare) SetDevMode(domain string, enable bool) (RootZones, error
 	if err != nil {
 		return RootZones{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootZones{}, err
+	}
 	return data, nil
 }
 
@@ -223,6 +260,10 @@ func (this *Cloudflare) PurgeCache(domain string) (RootPurgeCache, error) {
 	data := RootPurgeCache{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootPurgeCache{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootPurgeCache{}, err
 	}
 	return data, nil
@@ -241,6 +282,10 @@ func (this *Cloudflare) PurgeFile(domain, url_file string) (RootPurgeFile, error
 	if err != nil {
 		return RootPurgeFile{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootPurgeFile{}, err
+	}
 	return data, nil
 }
 
@@ -255,6 +300,10 @@ func (this *Cloudflare) LookupIp(domain, ip string) (RootLookupIp, error) {
 	data := RootLookupIp{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootLookupIp{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootLookupIp{}, err
 	}
 	return data, nil
@@ -273,6 +322,10 @@ func (this *Cloudflare) DenyIP(domain, ip string) (RootModIp, error) {
 	if err != nil {
 		return RootModIp{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootModIp{}, err
+	}
 	return data, nil
 }
 
@@ -289,6 +342,10 @@ func (this *Cloudflare) ForgetIP(domain, ip string) (RootModIp, error) {
 	if err != nil {
 		return RootModIp{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootModIp{}, err
+	}
 	return data, nil
 }
 
@@ -303,6 +360,10 @@ func (this *Cloudflare) AllowIP(domain, ip string) (RootModIp, error) {
 	data := RootModIp{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootModIp{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootModIp{}, err
 	}
 	return data, nil
@@ -325,6 +386,10 @@ func (this *Cloudflare) ToggleMirage2(domain string, toggle bool) (Root, error) 
 	if err != nil {
 		return Root{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return Root{}, err
+	}
 	return data, nil
 }
 
@@ -341,6 +406,10 @@ func (this *Cloudflare) Minify(domain, state string) (Root, error) {
 	if err != nil {
 		return Root{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return Root{}, err
+	}
 	return data, nil
 }
 
@@ -355,6 +424,10 @@ func (this *Cloudflare) SetRocketLoader(domain, state string) (Root, error) {
 	data := Root{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return Root{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return Root{}, err
 	}
 	return data, nil
@@ -377,6 +450,10 @@ func (this *Cloudflare) ToggleIpv46(domain string, toggle bool) (Root, error) {
 	if err != nil {
 		return Root{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return Root{}, err
+	}
 	return data, nil
 }
 
@@ -393,6 +470,10 @@ func (this *Cloudflare) Snapshot(domain, zoneid string) (Root, error) {
 	if err != nil {
 		return Root{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return Root{}, err
+	}
 	return data, nil
 }
 
@@ -406,6 +487,10 @@ func (this *Cloudflare) GetZoneSettings(domain string) (RootZoneSettings, error)
 	data := RootZoneSettings{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootZoneSettings{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootZoneSettings{}, err
 	}
 	return data, nil
@@ -424,6 +509,10 @@ func (this *Cloudflare) GetActiveZones(domain string, zones ...string) (RootZone
 	if err != nil {
 		return RootZonesCheck{}, err
 	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
+		return RootZonesCheck{}, err
+	}
 	return data, nil
 }
 
@@ -440,6 +529,10 @@ func (this *Cloudflare) GetRecentIps(domain, hours, class, geo string) (RootZone
 	data := RootZoneIps{}
 	err = json.Unmarshal(response, &data)
 	if err != nil {
+		return RootZoneIps{}, err
+	}
+	if data.Result == "error" {
+		err = errors.New(data.Message)
 		return RootZoneIps{}, err
 	}
 	return data, nil
